@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Proposal ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #ffd6e7;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .container {
+      text-align: center;
+    }
+    .emoji {
+      font-size: 100px;
+      margin-bottom: 15px;
+    }
+    h2 {
+      margin: 10px 0;
+    }
+    p {
+      margin: 5px 0 20px 0;
+    }
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.3s;
+    }
+    #yes {
+      background: #ff4d6d;
+      color: white;
+    }
+    #no {
+      background: #f1f1f1;
+      color: #333;
+      position: relative;
+    }
+    /* Watermark */
+    .watermark {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      font-weight: bold;
+      color: rgba(0,0,0,0.3);
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="emoji" class="emoji">🥺❤️</div>
+    <h2 id="title">Do you love me? 🥺</h2>
+    <p id="text">I am all yours ❤️</p>
+    <div>
+      <button id="yes">Yes</button>
+      <button id="no">No</button>
+    </div>
+  </div>
+
+  <!-- Watermark -->
+  <div class="watermark">Dlx_debu</div>
+
+  <script>
+    // Steps (emoji instead of images)
+    const steps = [
+      {
+        emoji: "🥺❤️",
+        title: "Do you love me? 🥺",
+        text: "I am all yours ❤️"
+      },
+      {
+        emoji: "😢💔",
+        title: "Please think again! 🙄",
+        text: "Itni jaldi nahi matt bolo 😢"
+      },
+      {
+        emoji: "😘💕",
+        title: "Ek aur baar soch lo! 😘",
+        text: "kyu aisa kar rahe ho 🥺"
+      },
+      {
+        emoji: "😭🥰",
+        title: "Baby man jao na! Kitna bhav khaogi 😭",
+        text: "bhut galat baat hai yaar 😔"
+      }
+    ];
+
+    let current = 0;
+    const emojiDiv = document.getElementById("emoji");
+    const title = document.getElementById("title");
+    const text = document.getElementById("text");
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+
+    // NO button logic
+    noBtn.addEventListener("click", () => {
+      if (current < steps.length - 1) {
+        // Normal behavior for first 3 steps
+        current++;
+        emojiDiv.textContent = steps[current].emoji;
+        title.textContent = steps[current].title;
+        text.textContent = steps[current].text;
+
+        // In last step, make button absolute for moving
+        if (current === steps.length - 1) {
+          noBtn.style.position = "absolute";
+        }
+      } else {
+        // In last step, move randomly instead of changing text
+        const x = Math.floor(Math.random() * (window.innerWidth - 100));
+        const y = Math.floor(Math.random() * (window.innerHeight - 50));
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+      }
+    });
+
+    // YES button logic
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="text-align:center; font-family:sans-serif; color:#fff;">
+          <h1>Yay! You said YES ❤️🥳</h1>
+          <div style="font-size:100px; margin:20px;">🥰💍🌹</div>
+          <p>Love you forever 😘</p>
+          <div style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); font-size:14px; font-weight:bold; color:rgba(0,0,0,0.3);">Dlx_debu</div>
+        </div>
+      `;
+      document.body.style.background = "#ff4d6d";
+    });
+  </script>
+</body>
+</html>
