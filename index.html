@@ -45,7 +45,6 @@
       color: #333;
       position: relative;
     }
-    /* Watermark */
     .watermark {
       position: fixed;
       bottom: 10px;
@@ -70,32 +69,21 @@
     </div>
   </div>
 
-  <!-- Watermark -->
   <div class="watermark">Dlx_debu</div>
 
+  <!-- EmailJS Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script>
-    // Steps (emoji instead of images)
+    // Initialize EmailJS
+    (function(){
+      emailjs.init("Ilofz4AOZSLuRKa1G"); // ✅ Your Public Key
+    })();
+
     const steps = [
-      {
-        emoji: "🥺❤️",
-        title: "Do you love me? 🥺",
-        text: "I am all yours ❤️"
-      },
-      {
-        emoji: "😢💔",
-        title: "Please think again! 🙄",
-        text: "Itni jaldi nahi matt bolo 😢"
-      },
-      {
-        emoji: "😘💕",
-        title: "Ek aur baar soch lo! 😘",
-        text: "kyu aisa kar rahe ho 🥺"
-      },
-      {
-        emoji: "😭🥰",
-        title: "Baby man jao na! Kitna bhav khaogi 😭",
-        text: "bhut galat baat hai yaar 😔"
-      }
+      { emoji: "🥺❤️", title: "Do you love me? 🥺", text: "I am all yours ❤️" },
+      { emoji: "😢💔", title: "Please think again! 🙄", text: "Itni jaldi nahi matt bolo 😢" },
+      { emoji: "😘💕", title: "Ek aur baar soch lo! 😘", text: "kyu aisa kar rahe ho 🥺" },
+      { emoji: "😭🥰", title: "Baby man jao na! Kitna bhav khaogi 😭", text: "bhut galat baat hai yaar 😔" }
     ];
 
     let current = 0;
@@ -108,18 +96,14 @@
     // NO button logic
     noBtn.addEventListener("click", () => {
       if (current < steps.length - 1) {
-        // Normal behavior for first 3 steps
         current++;
         emojiDiv.textContent = steps[current].emoji;
         title.textContent = steps[current].title;
         text.textContent = steps[current].text;
-
-        // In last step, make button absolute for moving
         if (current === steps.length - 1) {
           noBtn.style.position = "absolute";
         }
       } else {
-        // In last step, move randomly instead of changing text
         const x = Math.floor(Math.random() * (window.innerWidth - 100));
         const y = Math.floor(Math.random() * (window.innerHeight - 50));
         noBtn.style.left = x + "px";
@@ -129,15 +113,30 @@
 
     // YES button logic
     yesBtn.addEventListener("click", () => {
-      document.body.innerHTML = `
-        <div style="text-align:center; font-family:sans-serif; color:#fff;">
-          <h1>Yay! You said YES ❤️🥳</h1>
-          <div style="font-size:100px; margin:20px;">🥰💍🌹</div>
-          <p>Love you forever 😘</p>
-          <div style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); font-size:14px; font-weight:bold; color:rgba(0,0,0,0.3);">Dlx_debu</div>
-        </div>
-      `;
-      document.body.style.background = "#ff4d6d";
+      const name = prompt("Enter your name 💖", "Your Name");
+      const message = "Clicked YES on proposal site! 💍🥰";
+
+      emailjs.send("service_if8jqhi", "template_5hnrg33", {
+        from_name: name,
+        message: message
+      }).then(
+        function(response) {
+          document.body.innerHTML = `
+            <div style="text-align:center; font-family:sans-serif; color:#fff;">
+              <h1>Yay! You said YES ❤️🥳</h1>
+              <div style="font-size:100px; margin:20px;">🥰💍🌹</div>
+              <p>Love you forever 😘</p>
+              <small>Email sent successfully 💌</small>
+              <div style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); font-size:14px; font-weight:bold; color:rgba(0,0,0,0.3);">Dlx_debu</div>
+            </div>
+          `;
+          document.body.style.background = "#ff4d6d";
+        },
+        function(error) {
+          alert("Oops! Email not sent 😢");
+          console.error("FAILED...", error);
+        }
+      );
     });
   </script>
 </body>
